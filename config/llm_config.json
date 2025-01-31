@@ -1,0 +1,24 @@
+{
+    "llm_configs": [
+        {
+            "provider": "groq",
+            "model": "llama-3.2-3b-preview",
+            "env_var": "GROQ_API_KEY"
+        },
+        {
+            "provider": "openai",
+            "model": "gpt-4o-mini-2024-07-18",
+            "env_var": "OPENAI_API_KEY"
+        },
+        {
+            "provider": "google",
+            "model": "gemini-1.5-flash",
+            "env_var": "GOOGLE_API_KEY"
+        },
+        {
+            "provider": "anthropic",
+            "model": "claude-3-5-haiku-latest",
+            "env_var": "ANTHROPIC_API_KEY"
+        }
+    ]
+}
