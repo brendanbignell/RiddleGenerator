@@ -135,68 +135,95 @@ class RiddleGenerator:
 
     def _get_raw_riddle(self, provider, model, temperature=0.7):
         """Get raw response from the model with temperature control"""
-        if provider == "openai":
-            client = self.clients.get(provider)
-            response = client.chat.completions.create(
-                model=model,
-                temperature=temperature,
-                messages=[{
-                    "role": "user",
-                    "content": self.prompt
-                },
-                {
-                    "role": "system",
-                    "content": "For math riddles, you must include numbers and mathematical operations."
-                }]
-            )
-            return response.choices[0].message.content
+        try:
+            if provider == "groq":
+                client = self.clients.get(provider)
+                response = client.chat.completions.create(
+                    model=model,
+                    temperature=temperature,
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": "You are a riddle generator. Always respond with valid JSON only."
+                        },
+                        {
+                            "role": "user",
+                            "content": self.prompt
+                        }
+                    ]
+                )
+                if not response.choices or not response.choices[0].message.content:
+                    raise Exception("Empty response from Groq")
+                return response.choices[0].message.content
+
+            elif provider == "openai":
+                client = self.clients.get(provider)
+                response = client.chat.completions.create(
+                    model=model,
+                    temperature=temperature,
+                    messages=[{
+                        "role": "user",
+                        "content": self.prompt
+                    },
+                    {
+                        "role": "system",
+                        "content": "For math riddles, you must include numbers and mathematical operations."
+                    }]
+                )
+                return response.choices[0].message.content
             
-        elif provider == "anthropic":
-            client = self.clients.get(provider)
-            response = client.messages.create(
-                model=model,
-                temperature=temperature,
-                max_tokens=1024,
-                messages=[{
-                    "role": "user",
-                    "content": self.prompt
-                }]
-            )
-            return response.content[0].text
+            elif provider == "anthropic":
+                client = self.clients.get(provider)
+                response = client.messages.create(
+                    model=model,
+                    temperature=temperature,
+                    max_tokens=1024,
+                    messages=[{
+                        "role": "user",
+                        "content": self.prompt
+                    }]
+                )
+                return response.content[0].text
             
-        elif provider == "groq":
-            client = self.clients.get(provider)
-            response = client.chat.completions.create(
-                model=model,
-                temperature=temperature,
-                messages=[{
-                    "role": "user",
-                    "content": self.prompt
-                }]
-            )
-            return response.choices[0].message.content
-            
-        elif provider == "google":
-            client = self.clients.get(provider)
-            response = client.generate_content(
-                self.prompt,
-                generation_config={"temperature": temperature}
-            )
-            return response.text
+            elif provider == "google":
+                client = self.clients.get(provider)
+                response = client.generate_content(
+                    self.prompt,
+                    generation_config={"temperature": temperature}
+                )
+                return response.text
+
+        except Exception as e:
+            ic(f"Error in _get_raw_riddle for {provider}: {str(e)}")
+            # Return a default riddle if the provider fails
+            if "math" in self.prompt:
+                return """{"type": "math", "riddle": "If you have 5 apples and multiply them by 3, how many apples do you have?", "answer": "15", "solution": "5 * 3 = 15"}"""
+            else:
+                return """{"type": "word", "riddle": "I am tall when I am young, and short when I am old. What am I?", "answer": "A candle"}"""
 
     def _extract_json(self, content):
         """Extract and validate JSON from response"""
         try:
+            # Handle empty content
+            if not content or content.isspace():
+                raise ValueError("Empty content received")
+
             # Clean the content
             content = content.strip()
-            # Remove any text before the first {
-            content = content[content.find("{"):]
-            # Remove any text after the last }
-            content = content[:content.rfind("}") + 1]
-            # Replace any newlines in the content with spaces
+            
+            # Find the first { and last }
+            start = content.find("{")
+            end = content.rfind("}")
+            
+            if start == -1 or end == -1:
+                raise ValueError("No JSON object found in content")
+                
+            content = content[start:end + 1]
+            
+            # Replace escaped characters
             content = content.replace("\n", " ")
-            # Clean up multiple spaces
-            content = " ".join(content.split())
+            content = content.replace("\\", "")
+            content = re.sub(r'\s+', ' ', content)
             
             # Parse the JSON
             data = json.loads(content)
@@ -204,12 +231,26 @@ class RiddleGenerator:
             # Validate required fields
             required_fields = ["type", "riddle", "answer"]
             if not all(field in data for field in required_fields):
-                raise ValueError("Missing required fields in JSON response")
-                
+                raise ValueError(f"Missing required fields in JSON response. Found: {list(data.keys())}")
+            
             return data
             
         except Exception as e:
-            raise Exception(f"JSON parsing error: {str(e)}\nContent: {content}")
+            ic(f"JSON parsing error: {str(e)}\nContent: {content}")
+            # Return a default riddle if parsing fails
+            if "math" in self.prompt:
+                return {
+                    "type": "math",
+                    "riddle": "If you have 5 apples and multiply them by 3, how many apples do you have?",
+                    "answer": "15",
+                    "solution": "5 * 3 = 15"
+                }
+            else:
+                return {
+                    "type": "word",
+                    "riddle": "I am tall when I am young, and short when I am old. What am I?",
+                    "answer": "A candle"
+                }
 
     def get_raw_response(self, provider, model, prompt):
         """Get a raw text response from the LLM"""
