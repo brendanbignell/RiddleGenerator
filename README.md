@@ -16,7 +16,6 @@ GROQ_API_KEY=your_key_here
 
 GOOGLE_API_KEY=your_key_here
 
-
 # Example output:
 
 python run_competition.py
