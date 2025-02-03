@@ -3,6 +3,15 @@ Test using Cursor.AI as a development environment
 
 Generate riddles using multiple LLMs and test which LLM is the best at solving riddles.
 
+You can install all dependencies with:
+      pip install -r requirements.txt
+
+Make sure you have your API keys set in your environment variables:
+      OPENAI_API_KEY=your_key_here
+      ANTHROPIC_API_KEY=your_key_here
+      GROQ_API_KEY=your_key_here
+      GOOGLE_API_KEY=your_key_here
+
 Example output:
 
 python run_competition.py
