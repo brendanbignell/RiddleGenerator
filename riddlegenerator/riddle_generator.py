@@ -123,7 +123,12 @@ class RiddleGenerator:
             start = content.find("{")
             end = content.rfind("}") + 1
             if start == -1 or end <= 0:
-                raise ValueError("No JSON object found")
+                # Try to fix incomplete JSON by adding missing brace
+                if start >= 0 and '"answer":' in content:
+                    content = content + "}"
+                    end = len(content)
+                else:
+                    raise ValueError("No JSON object found")
             
             # Extract and parse JSON
             json_str = content[start:end]
@@ -131,7 +136,13 @@ class RiddleGenerator:
             json_str = json_str.replace('\\"', '"').replace('\\n', ' ')
             json_str = re.sub(r'\s+', ' ', json_str)
             
-            data = json.loads(json_str)
+            try:
+                data = json.loads(json_str)
+            except json.JSONDecodeError:
+                # Try to fix common JSON formatting issues
+                json_str = json_str.replace("'", '"')  # Replace single quotes with double quotes
+                json_str = re.sub(r'([{,])\s*(\w+):', r'\1 "\2":', json_str)  # Quote unquoted keys
+                data = json.loads(json_str)
             
             # Validate required fields
             required_fields = ["type", "riddle", "answer"]
