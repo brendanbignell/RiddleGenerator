@@ -21094,3 +21094,5 @@ riddlegenerator/__pycache__/riddle_competition.cpython-312.pyc
 tests/__pycache__/test_llm_api_keys.cpython-312.pyc
 tests/__pycache__/test_llm_api_keys.cpython-312.pyc
 tests/__pycache__/test_llm_api_keys.cpython-312.pyc
+riddle_competition_results.csv
+riddle_competition_results.csv
