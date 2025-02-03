@@ -16,32 +16,32 @@ class TestRiddleGenerator(unittest.TestCase):
         result = self.generator.get_riddle("google", "gemini-1.5-flash")
         self.assertIn('riddle', result)
         self.assertIn('answer', result)
-        ic(result['riddle'])
-        ic(result['answer'])
+        print(result['riddle'])
+        print(result['answer'])
 
     def test_get_riddle_groq(self):
         print("Test getting a riddle from Groq")
         result = self.generator.get_riddle("groq", "llama3-8b-8192")
         self.assertIn('riddle', result)
         self.assertIn('answer', result)
-        ic(result['riddle'])
-        ic(result['answer'])
+        print(result['riddle'])
+        print(result['answer'])
  
     def test_get_riddle_anthropic(self):
         print("Test getting a riddle from Claude")
         result = self.generator.get_riddle("anthropic", "claude-3-5-haiku-latest")
         self.assertIn('riddle', result)
         self.assertIn('answer', result)
-        ic(result['riddle'])
-        ic(result['answer'])
+        print(result['riddle'])
+        print(result['answer'])
     
     def test_get_riddle_openai(self):
         print("Test getting a riddle from OpenAI")
         result = self.generator.get_riddle("openai", "gpt-4o-mini-2024-07-18")
         self.assertIn('riddle', result)
         self.assertIn('answer', result)
-        ic(result['riddle'])
-        ic(result['answer'])
+        print(result['riddle'])
+        print(result['answer'])
 
 if __name__ == '__main__':
     unittest.main() 
