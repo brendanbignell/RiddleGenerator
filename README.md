@@ -20,49 +20,49 @@ Make sure you have your API keys set in your environment variables:
 
 `python run_competition.py`
 
-=== groq is asking riddles ===
+=== groq is asking riddles ===  
 
-Round 1
+Round 1  
 Riddle: In the heart of darkness, I shine bright. I'm not a flame, though I can be warm. I can be a beacon, but I'm not a light. What am I?  
 Correct Answer: A Star  
 openai answered: A star.  
 google answered: Hope  
 anthropic answered: Hope  
 
-Round 2
-Riddle: What is 6 x 9 - 3?
-Correct Answer: 51
-Solution: 6 x 9 = 54, then subtract 3 to get 51
-openai answered: 51
-google answered: 45
-anthropic answered: 51
+Round 2  
+Riddle: What is 6 x 9 - 3?  
+Correct Answer: 51  
+Solution: 6 x 9 = 54, then subtract 3 to get 51  
+openai answered: 51  
+google answered: 45  
+anthropic answered: 51  
 
-=== openai is asking riddles ===
+=== openai is asking riddles ===  
 
-Round 1
-Riddle: I can be cracked, made, told, and played. What am I?
-Correct Answer: A joke
-groq answered: Joke.
-google answered: Joke
-anthropic answered: A joke
+Round 1  
+Riddle: I can be cracked, made, told, and played. What am I?  
+Correct Answer: A joke  
+groq answered: Joke.  
+google answered: Joke  
+anthropic answered: A joke  
 
-Round 2
-Riddle: What is 15 + 27?
-Correct Answer: 42
-Solution: Add the two numbers together: 15 + 27 = 42.
-groq answered: 42
-google answered: 42
-anthropic answered: 42
+Round 2  
+Riddle: What is 15 + 27?  
+Correct Answer: 42  
+Solution: Add the two numbers together: 15 + 27 = 42.  
+groq answered: 42  
+google answered: 42  
+anthropic answered: 42  
 
-=== google is asking riddles ===
+=== google is asking riddles ===  
 
-Round 1
-Attempt 1: Generated similar riddle, trying again...
-Riddle: What is always coming, but never arrives?
-Correct Answer: Tomorrow
-groq answered: Tomorrow.
-openai answered: Tomorrow.
-anthropic answered: Tomorrow
+Round 1  
+Attempt 1: Generated similar riddle, trying again...  
+Riddle: What is always coming, but never arrives?  
+Correct Answer: Tomorrow  
+groq answered: Tomorrow.  
+openai answered: Tomorrow.  
+anthropic answered: Tomorrow  
 
 Round 2
 Riddle: What is 234 + 109?
