@@ -12,7 +12,7 @@ class TestRiddleGenerator(unittest.TestCase):
         self.generator = RiddleGenerator()
     
     def test_get_riddle_gemini(self):
-        """Test getting a riddle from Gemini"""
+        print("Test getting a riddle from Gemini")
         result = self.generator.get_riddle("google", "gemini-1.5-flash")
         self.assertIn('riddle', result)
         self.assertIn('answer', result)
@@ -20,7 +20,7 @@ class TestRiddleGenerator(unittest.TestCase):
         ic(result['answer'])
 
     def test_get_riddle_groq(self):
-        """Test getting a riddle from Groq"""
+        print("Test getting a riddle from Groq")
         result = self.generator.get_riddle("groq", "llama3-8b-8192")
         self.assertIn('riddle', result)
         self.assertIn('answer', result)
@@ -28,7 +28,7 @@ class TestRiddleGenerator(unittest.TestCase):
         ic(result['answer'])
  
     def test_get_riddle_anthropic(self):
-        """Test getting a riddle from Claude"""
+        print("Test getting a riddle from Claude")
         result = self.generator.get_riddle("anthropic", "claude-3-5-haiku-latest")
         self.assertIn('riddle', result)
         self.assertIn('answer', result)
@@ -36,7 +36,7 @@ class TestRiddleGenerator(unittest.TestCase):
         ic(result['answer'])
     
     def test_get_riddle_openai(self):
-        """Test getting a riddle from OpenAI"""
+        print("Test getting a riddle from OpenAI")
         result = self.generator.get_riddle("openai", "gpt-4o-mini-2024-07-18")
         self.assertIn('riddle', result)
         self.assertIn('answer', result)

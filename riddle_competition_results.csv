@@ -1,0 +1,37 @@
+Round,Riddler,Solver,Riddle,Correct Answer,Given Answer,Is Correct
+1,groq,openai,"I have a head, but never weep. I have a bed, but never sleep. I have a mouth, but never speak. What am I?",A river,A river.,False
+1,groq,google,"I have a head, but never weep. I have a bed, but never sleep. I have a mouth, but never speak. What am I?",A river,A river,False
+1,groq,anthropic,"I have a head, but never weep. I have a bed, but never sleep. I have a mouth, but never speak. What am I?",A river,River,True
+2,groq,openai,"I have a face, but no eyes, nose, or mouth. I have a voice, but I'm not speaking. I can reveal the truth, but I'm not alive. What am I?",A clock,A clock.,True
+2,groq,google,"I have a face, but no eyes, nose, or mouth. I have a voice, but I'm not speaking. I can reveal the truth, but I'm not alive. What am I?",A clock,A clock,False
+2,groq,anthropic,"I have a face, but no eyes, nose, or mouth. I have a voice, but I'm not speaking. I can reveal the truth, but I'm not alive. What am I?",A clock,Clock,False
+3,groq,openai,"I have a face, but no eyes, nose, or mouth. I sometimes change, but the same person always appears. I'm a part of walls, but I can be broken. What am I?",A reflection,A clock.,False
+3,groq,google,"I have a face, but no eyes, nose, or mouth. I sometimes change, but the same person always appears. I'm a part of walls, but I can be broken. What am I?",A reflection,A mirror,False
+3,groq,anthropic,"I have a face, but no eyes, nose, or mouth. I sometimes change, but the same person always appears. I'm a part of walls, but I can be broken. What am I?",A reflection,A clock,True
+1,openai,groq,"I speak without a mouth and hear without ears. I have no body, but I come alive with the wind. What am I?",An echo,Echo.,False
+1,openai,google,"I speak without a mouth and hear without ears. I have no body, but I come alive with the wind. What am I?",An echo,An echo,True
+1,openai,anthropic,"I speak without a mouth and hear without ears. I have no body, but I come alive with the wind. What am I?",An echo,An echo.,False
+2,openai,groq,"I can fly without wings, I can cry without eyes. Whenever I go, darkness flies. What am I?",A cloud,A shadow.,False
+2,openai,google,"I can fly without wings, I can cry without eyes. Whenever I go, darkness flies. What am I?",A cloud,A cloud,False
+2,openai,anthropic,"I can fly without wings, I can cry without eyes. Whenever I go, darkness flies. What am I?",A cloud,A cloud,False
+3,openai,groq,"I can be cracked, made, told, and played. I am often shared but never before laid. What am I?",A joke,A joke,False
+3,openai,google,"I can be cracked, made, told, and played. I am often shared but never before laid. What am I?",A joke,A joke,True
+3,openai,anthropic,"I can be cracked, made, told, and played. I am often shared but never before laid. What am I?",A joke,A joke,False
+1,google,groq,"What has an eye, but cannot see?",A needle,A needle.,True
+1,google,openai,"What has an eye, but cannot see?",A needle,A needle.,True
+1,google,anthropic,"What has an eye, but cannot see?",A needle,Needle,True
+2,google,groq,What has to be broken before you can use it?,An egg,An egg.,True
+2,google,openai,What has to be broken before you can use it?,An egg,An egg.,True
+2,google,anthropic,What has to be broken before you can use it?,An egg,An egg.,True
+3,google,groq,"What has an eye, but cannot see, a bed, but never sleeps, and a spine, but cannot stand?",A book,A coffin.,False
+3,google,openai,"What has an eye, but cannot see, a bed, but never sleeps, and a spine, but cannot stand?",A book,A needle.,False
+3,google,anthropic,"What has an eye, but cannot see, a bed, but never sleeps, and a spine, but cannot stand?",A book,A potato,False
+1,anthropic,groq,"The more you take, the more you leave behind. What am I?",Footsteps,Footsteps.,True
+1,anthropic,openai,"The more you take, the more you leave behind. What am I?",Footsteps,Footsteps.,True
+1,anthropic,google,"The more you take, the more you leave behind. What am I?",Footsteps,Footsteps,True
+2,anthropic,groq,"I grow taller when I eat, but shorter when I drink. I'm not alive, but I can stand tall. What am I?",A candle,A candle.,True
+2,anthropic,openai,"I grow taller when I eat, but shorter when I drink. I'm not alive, but I can stand tall. What am I?",A candle,A candle.,True
+2,anthropic,google,"I grow taller when I eat, but shorter when I drink. I'm not alive, but I can stand tall. What am I?",A candle,A candle,True
+3,anthropic,groq,"I am taken from a mine and shut up in a wooden case, from which I am never released, and yet I am used by everyone. What am I?",A pencil lead,Pencil lead,True
+3,anthropic,openai,"I am taken from a mine and shut up in a wooden case, from which I am never released, and yet I am used by everyone. What am I?",A pencil lead,Pencil lead.,True
+3,anthropic,google,"I am taken from a mine and shut up in a wooden case, from which I am never released, and yet I am used by everyone. What am I?",A pencil lead,Pencil lead,True
