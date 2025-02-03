@@ -17,7 +17,7 @@ Make sure you have your API keys set in your environment variables:
 
 `GOOGLE_API_KEY=your_key_here`
 
-# Example output:
+## Example output:
 
 `python run_competition.py`
 
