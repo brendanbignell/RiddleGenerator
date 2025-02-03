@@ -5,7 +5,7 @@ import argparse
 def main():
     # Set up command line argument parsing
     parser = argparse.ArgumentParser(description='Run an LLM riddle competition')
-    parser.add_argument('--rounds', type=int, default=3,
+    parser.add_argument('--rounds', type=int, default=2,
                        help='Number of riddles each LLM will ask (default: 3)')
     parser.add_argument('--output', type=str, default='riddle_competition_results.csv',
                        help='Output file for detailed results (default: riddle_competition_results.csv)')

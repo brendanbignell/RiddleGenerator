@@ -8,6 +8,7 @@ from icecream import ic
 import re
 from pathlib import Path
 from difflib import SequenceMatcher
+import random
 
 class RiddleGenerator:
     def __init__(self):
@@ -54,16 +55,29 @@ class RiddleGenerator:
             clients = {}
             for config in self.config['llm_configs']:
                 provider = config['provider']
-                if provider == "anthropic":
-                    clients[provider] = Anthropic(api_key=config['api_key'])
-                elif provider == "openai":
-                    clients[provider] = OpenAI(api_key=config['api_key'])
-                elif provider == "groq":
-                    clients[provider] = Groq(api_key=config['api_key'])
-                elif provider == "google":
-                    genai.configure(api_key=config['api_key'])
-                    clients[provider] = genai
+                api_key = os.getenv(f"{provider.upper()}_API_KEY")
+                
+                if not api_key:
+                    ic(f"Warning: No API key found for {provider}")
+                    continue
+                    
+                try:
+                    if provider == "anthropic":
+                        clients[provider] = Anthropic(api_key=api_key)
+                    elif provider == "openai":
+                        clients[provider] = OpenAI(api_key=api_key)
+                    elif provider == "groq":
+                        clients[provider] = Groq(api_key=api_key)
+                    elif provider == "google":
+                        genai.configure(api_key=api_key)
+                        model = genai.GenerativeModel('gemini-pro')
+                        clients[provider] = model
+                except Exception as e:
+                    ic(f"Failed to initialize {provider}: {str(e)}")
+                    continue
+                    
             return clients
+            
         except Exception as e:
             raise Exception(f"Failed to initialize clients: {str(e)}")
 
@@ -100,22 +114,42 @@ class RiddleGenerator:
         try:
             # Clean the content
             content = content.strip()
+            
+            # Handle multi-line JSON by joining lines
+            lines = content.split('\n')
+            content = ' '.join(line.strip() for line in lines)
+            
+            # Find the first { and last }
             start = content.find("{")
             end = content.rfind("}") + 1
-            if start == -1 or end == 0:
+            if start == -1 or end <= 0:
                 raise ValueError("No JSON object found")
             
+            # Extract and parse JSON
             json_str = content[start:end]
+            # Remove any escaped quotes and normalize spacing
+            json_str = json_str.replace('\\"', '"').replace('\\n', ' ')
             json_str = re.sub(r'\s+', ' ', json_str)
             
-            # Parse JSON
             data = json.loads(json_str)
             
             # Validate required fields
-            if "type" not in data or "riddle" not in data or "answer" not in data:
-                raise ValueError("Missing required fields")
-                
-            return data
+            required_fields = ["type", "riddle", "answer"]
+            if not all(field in data for field in required_fields):
+                raise ValueError(f"Missing required fields. Found: {list(data.keys())}")
+            
+            # Convert all values to strings
+            result = {
+                "type": str(data["type"]),
+                "riddle": str(data["riddle"]).strip(),
+                "answer": str(data["answer"]).strip()
+            }
+            
+            # Add solution if present
+            if "solution" in data:
+                result["solution"] = str(data["solution"]).strip()
+            
+            return result
             
         except Exception as e:
             ic(f"JSON parsing error: {str(e)}\nContent: {content}")
@@ -167,5 +201,96 @@ class RiddleGenerator:
             raise
 
     def get_raw_response(self, provider, model, prompt):
-        """Get a raw response for answer evaluation"""
-        return self._get_raw_riddle(provider, model, temperature=0.3)
+        """Get raw response from the model with error handling"""
+        try:
+            if provider == "google":
+                client = self.clients.get(provider)
+                response = client.generate_content(prompt)
+                return response.text.strip()
+                
+            elif provider == "groq":
+                client = self.clients.get(provider)
+                response = client.chat.completions.create(
+                    model=model,
+                    temperature=0.7,
+                    messages=[{
+                        "role": "user",
+                        "content": "Answer this riddle with just the answer, no explanation: " + prompt
+                    }]
+                )
+                return response.choices[0].message.content.strip()
+                
+            elif provider == "openai":
+                client = self.clients.get(provider)
+                response = client.chat.completions.create(
+                    model=model,
+                    temperature=0.7,
+                    messages=[{
+                        "role": "system",
+                        "content": "You are a riddle solver. Respond with just the answer, no explanation."
+                    },
+                    {
+                        "role": "user",
+                        "content": prompt
+                    }]
+                )
+                return response.choices[0].message.content.strip()
+                
+            elif provider == "anthropic":
+                client = self.clients.get(provider)
+                response = client.messages.create(
+                    model=model,
+                    temperature=0.7,
+                    max_tokens=1024,
+                    system="You are a riddle solver. Respond with just the answer, no explanation.",
+                    messages=[{
+                        "role": "user",
+                        "content": prompt
+                    }]
+                )
+                return response.content[0].text.strip()
+                
+        except Exception as e:
+            ic(f"Error getting response from {provider}: {str(e)}")
+            raise
+
+    def _get_unique_riddle(self, provider, model, riddle_type, max_attempts=3):
+        """Get a unique riddle of specified type"""
+        attempts = 0
+        last_error = None
+        
+        while attempts < max_attempts:
+            try:
+                self.generator.prompt = self.generator.prompts[riddle_type]
+                riddle_data = self.generator.get_riddle(provider, model)
+                
+                # Skip similarity check for math riddles
+                if riddle_type == "math" or not self.generator._is_similar_riddle(riddle_data['riddle']):
+                    self.used_riddles.append(riddle_data['riddle'])
+                    return riddle_data
+                    
+                ic(f"Attempt {attempts + 1}: Generated similar riddle, trying again...")
+                
+            except Exception as e:
+                last_error = e
+                ic(f"Attempt {attempts + 1} failed: {str(e)}")
+                
+            attempts += 1
+            
+        # If we failed to get a unique riddle, use a default one
+        if riddle_type == "math":
+            num1 = random.randint(2, 10)
+            num2 = random.randint(2, 5)
+            result = num1 * num2
+            return {
+                "type": "math",
+                "riddle": f"If you have {num1} items and multiply them by {num2}, how many do you have?",
+                "answer": str(result),  # Convert to string
+                "solution": f"Multiply {num1} by {num2} to get {result}"
+            }
+        else:
+            return {
+                "type": "word",
+                "riddle": "I speak without a mouth and hear without ears. I have no body, but come alive with wind. What am I?",
+                "answer": "An echo"
+            }

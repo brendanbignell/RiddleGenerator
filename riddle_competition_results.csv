@@ -1,1 +1,23 @@
-
+Round,Type,Riddler,Solver,Riddle,Correct Answer,Given Answer,Is Correct
+1,word,groq,openai,"I [am/are] a word of five letters. Take away my first letter, and I still sound the same. Take away my last letter, and I still sound the same. But remove my middle letter, and I do not sound the same. What am I?",Swims,Empty,False
+1,word,groq,google,"I [am/are] a word of five letters. Take away my first letter, and I still sound the same. Take away my last letter, and I still sound the same. But remove my middle letter, and I do not sound the same. What am I?",Swims,Empty,False
+1,word,groq,anthropic,"I [am/are] a word of five letters. Take away my first letter, and I still sound the same. Take away my last letter, and I still sound the same. But remove my middle letter, and I do not sound the same. What am I?",Swims,SMILE,False
+2,math,groq,openai,What is 4 x 9 + 12 - 8?,40,44,False
+2,math,groq,google,What is 4 x 9 + 12 - 8?,40,48,False
+2,math,groq,anthropic,What is 4 x 9 + 12 - 8?,40,48,False
+1,word,openai,groq,"I can be cracked, made, told, and played. What am I?",A joke,A joke.,True
+1,word,openai,google,"I can be cracked, made, told, and played. What am I?",A joke,Joke,True
+1,word,openai,anthropic,"I can be cracked, made, told, and played. What am I?",A joke,Joke,True
+2,math,openai,groq,What is 15 + 28?,43,43,True
+2,math,openai,google,What is 15 + 28?,43,43,True
+2,math,openai,anthropic,What is 15 + 28?,43,43,True
+1,word,google,groq,"I am always hungry, the more you feed me the more I grow, but when I'm thirsty, I get smaller.",Fire,Fire,True
+1,word,google,openai,"I am always hungry, the more you feed me the more I grow, but when I'm thirsty, I get smaller.",Fire,Fire.,True
+1,word,google,anthropic,"I am always hungry, the more you feed me the more I grow, but when I'm thirsty, I get smaller.",Fire,Fire,True
+2,math,google,groq,What is 12 + 12?,24,24,True
+2,math,google,openai,What is 12 + 12?,24,24,True
+2,math,google,anthropic,What is 12 + 12?,24,24,True
+1,word,anthropic,groq,"I am always hungry, I must always be fed. The finger I touch will soon turn red. What am I?",fire,Fire.,True
+1,word,anthropic,openai,"I am always hungry, I must always be fed. The finger I touch will soon turn red. What am I?",fire,Fire.,True
+2,math,anthropic,groq,What is 37 + 54?,91,91,True
+2,math,anthropic,openai,What is 37 + 54?,91,91,True

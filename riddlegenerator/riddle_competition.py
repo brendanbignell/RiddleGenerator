@@ -6,7 +6,7 @@ import re
 import random
 
 class RiddleCompetition:
-    def __init__(self, riddles_per_llm=10):
+    def __init__(self, riddles_per_llm=2):
         self.generator = RiddleGenerator()
         # Separate scores for word and math riddles
         self.scores = {
@@ -61,11 +61,11 @@ class RiddleCompetition:
                     self.used_riddles.append(riddle_data['riddle'])
                     return riddle_data
                     
-                ic(f"Attempt {attempts + 1}: Generated similar riddle, trying again...")
+                print(f"Attempt {attempts + 1}: Generated similar riddle, trying again...")
                 
             except Exception as e:
                 last_error = e
-                ic(f"Attempt {attempts + 1} failed: {str(e)}")
+                print(f"Attempt {attempts + 1} failed: {str(e)}")
                 
             attempts += 1
             
@@ -87,83 +87,85 @@ class RiddleCompetition:
     def run_competition(self):
         """Run the riddle competition between LLMs"""
         results = []
-        active_providers = set()  # Track which providers are still active
+        active_providers = set(provider for provider, _ in self._get_llm_configs())
         
         # Each LLM takes turns being the riddler
         for riddler_provider, riddler_model in self._get_llm_configs():
-            try:
-                ic(f"\n=== {riddler_provider} is asking riddles ===")
-                active_providers.add(riddler_provider)
+            if riddler_provider not in active_providers:
+                continue
                 
-                # Ask specified number of riddles
-                for round_num in range(self.riddles_per_llm):
-                    ic(f"\nRound {round_num + 1}")
+            print(f"\n=== {riddler_provider} is asking riddles ===")
+            
+            # Ask specified number of riddles
+            for round_num in range(self.riddles_per_llm):
+                riddle_type = "word" if round_num < self.riddles_per_llm/2 else "math"
+                print(f"\nRound {round_num + 1}")
+                
+                try:
+                    # Get a unique riddle from the riddler
+                    riddle_data = self._get_unique_riddle(riddler_provider, riddler_model, riddle_type)
+                    riddle = riddle_data['riddle']
+                    correct_answer = riddle_data['answer']
+                    solution = riddle_data.get('solution', '')
                     
-                    try:
-                        # Get a unique riddle from the riddler
-                        riddle_data = self._get_unique_riddle(riddler_provider, riddler_model, 
-                            "word" if round_num < self.riddles_per_llm/2 else "math")
-                        riddle = riddle_data['riddle']
-                        correct_answer = riddle_data['answer']
-                        solution = riddle_data.get('solution', '')
-                        
-                        ic(f"Riddle: {riddle}")
-                        ic(f"Correct Answer: {correct_answer}")
-                        if solution:
-                            ic(f"Solution: {solution}")
-                        
-                        # Each other LLM tries to solve it
-                        for solver_provider, solver_model in self._get_llm_configs():
-                            if solver_provider != riddler_provider and solver_provider in active_providers:
-                                try:
-                                    # Get the solver's answer
-                                    prompt = f"Answer this riddle with just the answer, no explanation: {riddle}"
-                                    response = self.generator.get_raw_response(solver_provider, solver_model, prompt)
-                                    ic(f"{solver_provider} answered: {response}")
-                                    
-                                    # Record the result
-                                    results.append({
-                                        'Round': round_num + 1,
-                                        'Type': riddle_data['type'],
-                                        'Riddler': riddler_provider,
-                                        'Solver': solver_provider,
-                                        'Riddle': riddle,
-                                        'Correct Answer': correct_answer,
-                                        'Solution': solution,
-                                        'Given Answer': response,
-                                        'Is Correct': self._check_answer(response, correct_answer)
-                                    })
-                                    
-                                except Exception as e:
-                                    ic(f"Error with solver {solver_provider}: {str(e)}")
-                                    active_providers.discard(solver_provider)
-                                    ic(f"{solver_provider} has been removed from the competition")
-                                    
-                    except Exception as e:
-                        ic(f"Error in round {round_num + 1}: {str(e)}")
-                        continue
-                        
-            except Exception as e:
-                ic(f"Error with riddler {riddler_provider}: {str(e)}")
-                active_providers.discard(riddler_provider)
-                ic(f"{riddler_provider} has been removed from the competition")
-                
+                    print(f"Riddle: {riddle}")
+                    print(f"Correct Answer: {correct_answer}")
+                    if solution:
+                        print(f"Solution: {solution}")
+                    
+                    # Each other LLM tries to solve it
+                    for solver_provider, solver_model in self._get_llm_configs():
+                        if solver_provider != riddler_provider and solver_provider in active_providers:
+                            try:
+                                # Get the solver's answer
+                                prompt = f"Answer this riddle with just the answer, no explanation: {riddle}"
+                                response = self.generator.get_raw_response(solver_provider, solver_model, prompt)
+                                print(f"{solver_provider} answered: {response}")
+                                
+                                # Check if answer is correct
+                                is_correct = self._check_answer(response, correct_answer)
+                                if is_correct:
+                                    self.scores[solver_provider][riddle_type] += 1
+                                
+                                results.append({
+                                    'Round': round_num + 1,
+                                    'Type': riddle_type,
+                                    'Riddler': riddler_provider,
+                                    'Solver': solver_provider,
+                                    'Riddle': riddle,
+                                    'Correct Answer': correct_answer,
+                                    'Given Answer': response,
+                                    'Is Correct': is_correct
+                                })
+                                
+                            except Exception as e:
+                                print(f"Error with solver {solver_provider}: {str(e)}")
+                                active_providers.discard(solver_provider)
+                                print(f"{solver_provider} has been removed from the competition")
+                                
+                except Exception as e:
+                    print(f"Error in round {round_num + 1}: {str(e)}")
+                    continue
+
         return self._generate_report(results)
 
     def _check_answer(self, given_answer, correct_answer):
         """Check if the given answer matches the correct answer"""
-        # Normalize both answers for comparison
+        # Clean and normalize both answers
         given = self._normalize_text(str(given_answer))
         correct = self._normalize_text(str(correct_answer))
         
-        # For math riddles, extract numbers and compare
+        # For math riddles, extract and compare numbers
         if any(char.isdigit() for char in correct):
-            given_nums = re.findall(r'\d+', given)
-            correct_nums = re.findall(r'\d+', correct)
-            return given_nums == correct_nums
-            
-        # For word riddles, check if answers are similar enough
-        return SequenceMatcher(None, given, correct).ratio() > 0.8
+            given_nums = re.findall(r'-?\d+\.?\d*', given)
+            correct_nums = re.findall(r'-?\d+\.?\d*', correct)
+            if given_nums and correct_nums:
+                return float(given_nums[0]) == float(correct_nums[0])
+            return False
+        
+        # For word riddles, check similarity
+        similarity = SequenceMatcher(None, given, correct).ratio()
+        return similarity > 0.8
 
     def _get_llm_configs(self):
         """Get list of (provider, model) tuples from config"""
