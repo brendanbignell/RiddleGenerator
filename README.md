@@ -23,11 +23,11 @@ Make sure you have your API keys set in your environment variables:
 === groq is asking riddles ===
 
 Round 1
-Riddle: In the heart of darkness, I shine bright. I'm not a flame, though I can be warm. I can be a beacon, but I'm not a light. What am I?
-Correct Answer: A Star
-openai answered: A star.
-google answered: Hope
-anthropic answered: Hope
+Riddle: In the heart of darkness, I shine bright. I'm not a flame, though I can be warm. I can be a beacon, but I'm not a light. What am I?  
+Correct Answer: A Star  
+openai answered: A star.  
+google answered: Hope  
+anthropic answered: Hope  
 
 Round 2
 Riddle: What is 6 x 9 - 3?
