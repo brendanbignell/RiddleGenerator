@@ -1,5 +1,6 @@
 # LLM Riddle Generator and Competition
-Test using Cursor.AI as a development environment
+Test using Cursor.AI as a development environment.  
+A simple project to test used different LLMs together in a colaborative fashion.  
 
 Generate riddles using multiple LLMs and test which LLM is the best at solving riddles.
 
@@ -64,43 +65,43 @@ groq answered: Tomorrow.
 openai answered: Tomorrow.  
 anthropic answered: Tomorrow  
 
-Round 2
-Riddle: What is 234 + 109?
-Correct Answer: 343
-Solution: Add the ones place: 4 + 9 = 13. Carry the 1 and add the tens place: 3 + 0 + 1 = 4. Add the hundreds place: 2 + 1 = 3.
-groq answered: 343
-openai answered: 343
-anthropic answered: 343
+Round 2  
+Riddle: What is 234 + 109?  
+Correct Answer: 343  
+Solution: Add the ones place: 4 + 9 = 13. Carry the 1 and add the tens place: 3 + 0 + 1 = 4. Add the hundreds place: 2 + 1 = 3.  
+groq answered: 343  
+openai answered: 343  
+anthropic answered: 343  
 
-=== anthropic is asking riddles ===
+=== anthropic is asking riddles ===  
 
-Round 1
-Riddle: I have cities, but no houses. I have mountains, but no trees. I have water, but no fish. What am I?
-Correct Answer: map
-groq answered: A map.
-openai answered: A map.
-google answered: A map
+Round 1  
+Riddle: I have cities, but no houses. I have mountains, but no trees. I have water, but no fish. What am I?  
+Correct Answer: map  
+groq answered: A map.  
+openai answered: A map.  
+google answered: A map  
 
-Round 2
-Riddle: What is 17 × 6 + 23?
-Correct Answer: 125
-Solution: 1. Multiply 17 × 6 = 102, 2. Add 23 to 102, 3. Result is 125
-groq answered: 107
-openai answered: 145
-google answered: 127
+Round 2  
+Riddle: What is 17 × 6 + 23?  
+Correct Answer: 125  
+Solution: 1. Multiply 17 × 6 = 102, 2. Add 23 to 102, 3. Result is 125  
+groq answered: 107  
+openai answered: 145  
+google answered: 127  
 
-Word Riddles Summary:
-      LLM  Word Riddles Correct  Total Questions  Word Success Rate
-     groq                     3              3.0             100.00
-   openai                     3              3.0             100.00
-   google                     2              3.0              66.67
-anthropic                     2              3.0              66.67
+Word Riddles Summary:  
+      LLM  Word Riddles Correct  Total Questions  Word Success Rate  
+     groq                     3              3.0             100.00  
+   openai                     3              3.0             100.00  
+   google                     2              3.0              66.67  
+anthropic                     2              3.0              66.67  
 
-Math Riddles Summary:
-      LLM  Math Riddles Correct  Total Questions  Math Success Rate
-anthropic                     3              3.0             100.00
-     groq                     2              3.0              66.67
-   openai                     2              3.0              66.67
-   google                     1              3.0              33.33
+Math Riddles Summary:  
+      LLM  Math Riddles Correct  Total Questions  Math Success Rate  
+anthropic                     3              3.0             100.00  
+     groq                     2              3.0              66.67  
+   openai                     2              3.0              66.67  
+   google                     1              3.0              33.33  
 
-Detailed results saved to riddle_competition_results.csv
+Detailed results saved to riddle_competition_results.csv  
