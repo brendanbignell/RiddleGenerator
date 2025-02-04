@@ -1,4 +1,4 @@
-# LLM Riddle Generator and Competition
+# Riddle generation and solving competition amongst multiple LLMs
 Test using Cursor.AI as a development environment.  
 A simple project to test used different LLMs together in a colaborative fashion.  
 
