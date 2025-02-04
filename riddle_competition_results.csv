@@ -1,25 +1,25 @@
 Round,Type,Riddler,Solver,Riddle,Correct Answer,Given Answer,Is Correct
-1,word,groq,openai,"In the heart of darkness, I shine bright. I'm not a flame, though I can be warm. I can be a beacon, but I'm not a light. What am I?",A Star,A star.,True
-1,word,groq,google,"In the heart of darkness, I shine bright. I'm not a flame, though I can be warm. I can be a beacon, but I'm not a light. What am I?",A Star,Hope,False
-1,word,groq,anthropic,"In the heart of darkness, I shine bright. I'm not a flame, though I can be warm. I can be a beacon, but I'm not a light. What am I?",A Star,Hope,False
-2,math,groq,openai,What is 6 x 9 - 3?,51,51,True
-2,math,groq,google,What is 6 x 9 - 3?,51,45,False
-2,math,groq,anthropic,What is 6 x 9 - 3?,51,51,True
-1,word,openai,groq,"I can be cracked, made, told, and played. What am I?",A joke,Joke.,True
+1,word,groq,openai,"I am a five-letter word, if you take away my first letter I still sound the same, if you take away my last letter I still sound the same, but if you take away my middle letter I do not sound the same, what am I?",Swims,Queue,False
+1,word,groq,google,"I am a five-letter word, if you take away my first letter I still sound the same, if you take away my last letter I still sound the same, but if you take away my middle letter I do not sound the same, what am I?",Swims,queue,False
+1,word,groq,anthropic,"I am a five-letter word, if you take away my first letter I still sound the same, if you take away my last letter I still sound the same, but if you take away my middle letter I do not sound the same, what am I?",Swims,SMILE,False
+2,math,groq,openai,What is 457 multiplied by 23?,10511,10531,False
+2,math,groq,google,What is 457 multiplied by 23?,10511,10461,False
+2,math,groq,anthropic,What is 457 multiplied by 23?,10511,"10,511",True
+1,word,openai,groq,"I can be cracked, made, told, and played. What am I?",A joke,A joke.,True
 1,word,openai,google,"I can be cracked, made, told, and played. What am I?",A joke,Joke,True
-1,word,openai,anthropic,"I can be cracked, made, told, and played. What am I?",A joke,A joke,True
+1,word,openai,anthropic,"I can be cracked, made, told, and played. What am I?",A joke,Joke,True
 2,math,openai,groq,What is 15 + 27?,42,42,True
 2,math,openai,google,What is 15 + 27?,42,42,True
 2,math,openai,anthropic,What is 15 + 27?,42,42,True
-1,word,google,groq,"What is always coming, but never arrives?",Tomorrow,Tomorrow.,True
-1,word,google,openai,"What is always coming, but never arrives?",Tomorrow,Tomorrow.,True
-1,word,google,anthropic,"What is always coming, but never arrives?",Tomorrow,Tomorrow,True
-2,math,google,groq,What is 234 + 109?,343,343,True
-2,math,google,openai,What is 234 + 109?,343,343,True
-2,math,google,anthropic,What is 234 + 109?,343,343,True
+1,word,google,groq,"The beginning of eternity, the end of time and space, the beginning of every end, and the end of every race.",The letter e,E.,False
+1,word,google,openai,"The beginning of eternity, the end of time and space, the beginning of every end, and the end of every race.",The letter e,"The letter ""e"".",True
+1,word,google,anthropic,"The beginning of eternity, the end of time and space, the beginning of every end, and the end of every race.",The letter e,E,False
+2,math,google,groq,What is 1000 divided by 10?,100,100,True
+2,math,google,openai,What is 1000 divided by 10?,100,100,True
+2,math,google,anthropic,What is 1000 divided by 10?,100,100,True
 1,word,anthropic,groq,"I have cities, but no houses. I have mountains, but no trees. I have water, but no fish. What am I?",map,A map.,True
 1,word,anthropic,openai,"I have cities, but no houses. I have mountains, but no trees. I have water, but no fish. What am I?",map,A map.,True
 1,word,anthropic,google,"I have cities, but no houses. I have mountains, but no trees. I have water, but no fish. What am I?",map,A map,True
-2,math,anthropic,groq,What is 17 × 6 + 23?,125,107,False
-2,math,anthropic,openai,What is 17 × 6 + 23?,125,145,False
-2,math,anthropic,google,What is 17 × 6 + 23?,125,127,False
+2,math,anthropic,groq,What is 47 + 36?,83,83,True
+2,math,anthropic,openai,What is 47 + 36?,83,83,True
+2,math,anthropic,google,What is 47 + 36?,83,83,True

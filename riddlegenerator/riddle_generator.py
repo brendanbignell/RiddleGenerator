@@ -211,39 +211,39 @@ class RiddleGenerator:
             ic(f"Error getting response from {provider}: {str(e)}")
             raise
 
-    def get_raw_response(self, provider, model, prompt):
+    def get_raw_response(self, provider, model, prompt, system_prompt=None):
         """Get raw response from the model with error handling"""
         try:
             if provider == "google":
                 client = self.clients.get(provider)
+                if system_prompt:
+                    prompt = f"{system_prompt}\n\n{prompt}"
                 response = client.generate_content(prompt)
                 return response.text.strip()
                 
             elif provider == "groq":
                 client = self.clients.get(provider)
+                messages = []
+                if system_prompt:
+                    messages.append({"role": "system", "content": system_prompt})
+                messages.append({"role": "user", "content": prompt})
                 response = client.chat.completions.create(
                     model=model,
-                    temperature=0.7,
-                    messages=[{
-                        "role": "user",
-                        "content": "Answer this riddle with just the answer, no explanation: " + prompt
-                    }]
+                    temperature=0.1,  # Lower temperature for math problems
+                    messages=messages
                 )
                 return response.choices[0].message.content.strip()
                 
             elif provider == "openai":
                 client = self.clients.get(provider)
+                messages = []
+                if system_prompt:
+                    messages.append({"role": "system", "content": system_prompt})
+                messages.append({"role": "user", "content": prompt})
                 response = client.chat.completions.create(
                     model=model,
-                    temperature=0.7,
-                    messages=[{
-                        "role": "system",
-                        "content": "You are a riddle solver. Respond with just the answer, no explanation."
-                    },
-                    {
-                        "role": "user",
-                        "content": prompt
-                    }]
+                    temperature=0.1,  # Lower temperature for math problems
+                    messages=messages
                 )
                 return response.choices[0].message.content.strip()
                 
@@ -251,13 +251,10 @@ class RiddleGenerator:
                 client = self.clients.get(provider)
                 response = client.messages.create(
                     model=model,
-                    temperature=0.7,
+                    temperature=0.1,  # Lower temperature for math problems
                     max_tokens=1024,
-                    system="You are a riddle solver. Respond with just the answer, no explanation.",
-                    messages=[{
-                        "role": "user",
-                        "content": prompt
-                    }]
+                    system=system_prompt if system_prompt else None,
+                    messages=[{"role": "user", "content": prompt}]
                 )
                 return response.content[0].text.strip()
                 
